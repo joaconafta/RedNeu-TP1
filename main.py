@@ -86,6 +86,9 @@ def train(X, Z, S, max_epoch, lr):
   t = 0
 
   while(error > 0.001 and t < max_epoch):
+    if t % 100 == 0:
+      print('epoch {} - error {}/{}'.format(t, error, len(X)))
+
     error = 0
     H = np.random.permutation(len(X)) # mini-lotes (recorro instancias en ordenes random)
 
@@ -123,9 +126,8 @@ def main(
 
   if (not path.exists(model + '.p')):
     errors, W = train(input, target, S, max_epoch, lr)
-    print(errors)
     pickle.dump(W, open(model + '.p', 'wb'))
   else:
     W = pickle.load(open(model + '.p', 'rb'))
     r = test(input, target, S, W)
-    print(r)
+    print('precisión: {}'.format(r))
