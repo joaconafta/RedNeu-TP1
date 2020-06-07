@@ -30,6 +30,18 @@ Para testar usar:
 - `MODELO` path al modelo entrenado. Este archivo debe existir.
 - `DATASET` path al dataset de testing
 
+### Experimentar
+
+1. Abrir `jupyter`
+
+  ```
+  jupyter lab
+  ```
+
+2. Abrir archivo `exp_ej1.ipynb`
+
+3. Correr con `Model(...)`
+
 ## Ejercicio 2
 
 Problema de regresión: predecir los valores de carga energética para la calefacción y
