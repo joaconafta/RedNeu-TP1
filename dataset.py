@@ -8,6 +8,8 @@ def normalize(data):
     data[c] = (data[c] - m) / (M - m)
     data[c] = data[c] * 2 - 1
 
+# TODO: implementar estandarizacion
+
 # carga de datos dadas las columnas usadas como entrada y target,
 # y una funcion aplicada al target
 def load_dataset(ds_file, input_break, target_break, apply_target):
