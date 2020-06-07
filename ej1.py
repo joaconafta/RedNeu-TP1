@@ -8,10 +8,10 @@ def apply_target(data_target):
 
 main(
   sys.argv,
-  (1,11),
-  (0,1),
+  (1, 11),
+  (0, 1),
   apply_target,
-  [10,1],
+  [10, 9, 1],
   1000,
   0.01
 )

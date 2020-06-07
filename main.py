@@ -101,6 +101,10 @@ def train(X, Z, S, max_epoch, lr):
 
   return errors, W
 
+def test(X, Z, S, W):
+  Y = [np.sign(activation(S, X[i:i+1], W)[-1][0]) for i in range(len(X))]
+  return np.mean(np.where(Y == Z, 1, 0))
+
 def main(
   argv, input_break, target_break, apply_target,
   S, max_epoch, lr
@@ -117,6 +121,11 @@ def main(
     apply_target
   )
 
-  if (not path.exists(model)):
-    _, W = train(input, target, S, max_epoch, lr)
-    pickle.dump(W, open(model, 'wb'))
+  if (not path.exists(model + '.p')):
+    errors, W = train(input, target, S, max_epoch, lr)
+    print(errors)
+    pickle.dump(W, open(model + '.p', 'wb'))
+  else:
+    W = pickle.load(open(model + '.p', 'rb'))
+    r = test(input, target, S, W)
+    print(r)
