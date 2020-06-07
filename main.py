@@ -2,6 +2,7 @@ from dataset import load_dataset
 from os import path
 import numpy as np
 import pickle
+from plotter import plot_error
 
 B = 1 # para cambiar buckets
 
@@ -126,6 +127,8 @@ def main(
 
   if (not path.exists(model + '.p')):
     errors, W = train(input, target, S, max_epoch, lr)
+    plot_error(errors)
+    pickle.dump(errors, open(model + '_errors.p', 'wb'))
     pickle.dump(W, open(model + '.p', 'wb'))
   else:
     W = pickle.load(open(model + '.p', 'rb'))
