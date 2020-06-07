@@ -1,3 +1,4 @@
+import sys
 from main import main
 import pandas as pd
 import numpy as np
@@ -5,15 +6,12 @@ import numpy as np
 def apply_target(data_target):
   return np.where(data_target=='M', -1, 1)
 
-S = [10,9,1]
-
 main(
+  sys.argv,
   (1,11),
   (0,1),
   apply_target,
-  S
+  [10,1],
+  1000,
+  0.01
 )
-
-# import main
-# elegir parametros del modelo
-# ejecutar perceptron
