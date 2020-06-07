@@ -152,3 +152,50 @@ def main(
     r = test(input, target, S, W)
 
     print('precisión: {}'.format(r))
+
+
+class Model:
+  def __init__(
+    self,
+    data,
+    input_break,
+    target_break,
+    apply_target
+  ):
+    (_input, _target) = load_dataset(
+      data,
+      input_break,
+      target_break,
+      apply_target
+    )
+
+    self.input = _input
+    self.target = _target
+
+  def train(self, S, max_epoch, lr, train_break):
+    self.S = S
+    self.max_epoch = max_epoch
+    self.lr = lr
+
+    errors, W = train(
+      self.input[train_break[0]:train_break[1]],
+      self.target[train_break[0]:train_break[1]],
+      self.S, self.max_epoch, self.lr
+    )
+
+    self.model = W
+    return errors
+
+  def test(self, test_break):
+    return test(
+      self.input[test_break[0]:test_break[1]],
+      self.target[test_break[0]:test_break[1]],
+      self.S, self.model
+    )
+
+  def exp(self, S, max_epoch, lr, train_break, test_break):
+    errors = self.train(S, max_epoch, lr, train_break)
+    pres = self.test(test_break)
+
+    plot_error(errors)
+    print(pres)
