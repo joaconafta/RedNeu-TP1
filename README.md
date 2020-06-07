@@ -95,3 +95,10 @@ Para instalar version de Python
 2. Abrir archivo `exp_ej1.ipynb` o `exp_ej2.ipynb`
 
 La clase `Model` se puede usar para experimentar y no recargar los datos.
+
+## Todo
+
+- [ ] Probar modelo de buckets
+- [ ] Probar standarización
+- [ ] Cambiar funciónes de activaón
+- [ ] Experimentar con cross-validation
