@@ -99,6 +99,8 @@ La clase `Model` se puede usar para experimentar y no recargar los datos.
 ## Todo
 
 - [ ] Probar modelo de buckets
+- [ ] Experimentar con cross-validation
+- [ ] Experimento de normalización
 - [ ] Probar standarización
 - [ ] Cambiar funciónes de activaón
-- [ ] Experimentar con cross-validation
+
