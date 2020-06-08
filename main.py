@@ -105,7 +105,7 @@ def train(X, Z, S, max_epoch, lr, B):
     # mini-lotes - mezcla de orden de instancias
     stochastic = np.random.permutation(len(X))
 
-    for h in range(0, len(X), B):
+    for h in range(0, len(X) - B, B):
       h = stochastic[h:h+B]
       Y = activation(S, X[h], W, B)
       dW = correction(S, Z[h], W, Y, lr, B)
@@ -180,12 +180,11 @@ class Model:
     self.S = S
     self.max_epoch = max_epoch
     self.lr = lr
-    self.B = B
 
     errors, W = train(
       self.input[train_break[0]:train_break[1]],
       self.target[train_break[0]:train_break[1]],
-      self.S, self.max_epoch, self.lr, self.B
+      self.S, self.max_epoch, self.lr, B
     )
 
     self.model = W
