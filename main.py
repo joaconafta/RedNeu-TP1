@@ -4,8 +4,6 @@ import numpy as np
 import pickle
 from plotter import plot_error
 
-B = 1 # para cambiar buckets
-
 # funciones de inicialización
 def init_w(S):
   return [
@@ -23,7 +21,7 @@ def init_dw(W):
     for i in range(len(W))
   ]
 
-def init_y(S):
+def init_y(S, B):
   _Y = []
   L = len(S)
 
@@ -44,8 +42,8 @@ def bias_sub(V):
 # funciones de entrenamiento
 
 # activacion feed forward
-def activation(S, Xh, W):
-  Y = init_y(S)
+def activation(S, Xh, W, B):
+  Y = init_y(S, B)
   _Y = Xh
 
   L = len(S)
@@ -59,11 +57,11 @@ def activation(S, Xh, W):
   return Y
 
 # correccion backpropagation
-def correction(S, Zh, W, Y, lr):
+def correction(S, Zh, W, Y, lr, B):
   L = len(S)
 
   dW = init_dw(W)
-  D = init_y(S)
+  D = init_y(S, B)
   E = Zh - Y[L-1]
   dY = 1 - np.square(Y[L-1]) # derivada de la función de activación
   D[L-1] = E*dY
@@ -84,7 +82,7 @@ def adaptation(W, dW):
 def estimation(Zh, Y):
   return np.mean(np.sum(np.square(Zh-Y[-1]), axis=1))
 
-def train(X, Z, S, max_epoch, lr):
+def train(X, Z, S, max_epoch, lr, B):
   # inicialización de matriz de pesos
   W = init_w(S)
 
@@ -92,22 +90,27 @@ def train(X, Z, S, max_epoch, lr):
   error = 1
   t = 0
 
+  print('S: {}'.format(S))
+  print('Máxima #epocas: {}'.format(max_epoch))
+  print('LR: {}'.format(lr))
+  print('B (mini-lotes): {}'.format(B))
+
   while(error > 0.001 and t < max_epoch):
     # resultado parcial
-    if t % 100 == 0:
-      print('epoch {} - error {}/{}'.format(t, error, len(X)))
+    if t % 100 == 0 and t > 0:
+      print('epoch: {}; error: {}'.format(t, error))
 
     error = 0
 
     # mini-lotes - mezcla de orden de instancias
-    H = np.random.permutation(len(X))
+    stochastic = np.random.permutation(len(X))
 
-    for h in H:
-      # TODO: if h+B <= P: - para B > 1
-      Y = activation(S, X[h:h + B], W)
-      dW = correction(S, Z[h:h+B], W, Y, lr)
+    for h in range(0, len(X), B):
+      h = stochastic[h:h+B]
+      Y = activation(S, X[h], W, B)
+      dW = correction(S, Z[h], W, Y, lr, B)
       W = adaptation(W, dW)
-      error += estimation(Z[h:h+B], Y)
+      error += estimation(Z[h], Y)
 
     t += 1
     errors.append(error)
@@ -115,12 +118,13 @@ def train(X, Z, S, max_epoch, lr):
   return errors, W
 
 def test(X, Z, S, W):
-  Y = [np.sign(activation(S, X[i:i+1], W)[-1][0]) for i in range(len(X))]
+  Y = [np.sign(activation(S, X[i:i+1], W, 1)[-1][0])
+    for i in range(len(X))]
   return np.mean(np.where(Y == Z, 1, 0)) # promedio de aciertos
 
 def main(
   argv, input_break, target_break, apply_target,
-  S, max_epoch, lr
+  S, max_epoch, lr, B = 1
 ):
   if (len(argv) != 3):
     print('Error en la entrada')
@@ -137,7 +141,7 @@ def main(
 
   if (not path.exists(model + '.p')):
     # entrenamiento
-    errors, W = train(input, target, S, max_epoch, lr)
+    errors, W = train(input, target, S, max_epoch, lr, B)
 
     plot_error(errors)
     pickle.dump(errors, open(model + '_errors.p', 'wb'))
@@ -160,7 +164,8 @@ class Model:
     data,
     input_break,
     target_break,
-    apply_target
+    apply_target,
+    B
   ):
     (_input, _target) = load_dataset(
       data,
@@ -171,6 +176,7 @@ class Model:
 
     self.input = _input
     self.target = _target
+    self.B = B
 
   def train(self, S, max_epoch, lr, train_break):
     self.S = S
@@ -180,7 +186,7 @@ class Model:
     errors, W = train(
       self.input[train_break[0]:train_break[1]],
       self.target[train_break[0]:train_break[1]],
-      self.S, self.max_epoch, self.lr
+      self.S, self.max_epoch, self.lr, self.B
     )
 
     self.model = W
