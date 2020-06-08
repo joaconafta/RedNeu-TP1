@@ -164,8 +164,7 @@ class Model:
     data,
     input_break,
     target_break,
-    apply_target,
-    B
+    apply_target
   ):
     (_input, _target) = load_dataset(
       data,
@@ -176,12 +175,12 @@ class Model:
 
     self.input = _input
     self.target = _target
-    self.B = B
 
-  def train(self, S, max_epoch, lr, train_break):
+  def train(self, S, max_epoch, lr, train_break, B):
     self.S = S
     self.max_epoch = max_epoch
     self.lr = lr
+    self.B = B
 
     errors, W = train(
       self.input[train_break[0]:train_break[1]],
@@ -199,9 +198,11 @@ class Model:
       self.S, self.model
     )
 
-  def exp(self, S, max_epoch, lr, train_break, test_break):
-    errors = self.train(S, max_epoch, lr, train_break)
+  def exp(self, S, max_epoch, lr, train_break, test_break, B):
+    errors = self.train(S, max_epoch, lr, train_break, B)
     pres = self.test(test_break)
 
     plot_error(errors)
     print(pres)
+
+    return errors
