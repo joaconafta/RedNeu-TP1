@@ -1,10 +1,6 @@
 import sys
 from main import main
-import pandas as pd
-import numpy as np
-
-def apply_target(data_target):
-  return np.where(data_target=='M', -1, 1)
+from util import apply_target
 
 main(
   sys.argv,

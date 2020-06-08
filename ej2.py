@@ -1,11 +1,6 @@
 import sys
 from main import main
-from dataset import normalize
-
-def targetNormalize(target_data):
-  data = target_data.copy()
-  normalize(data)
-  return data.to_numpy()
+from util import targetNormalize
 
 main(
   sys.argv,
