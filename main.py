@@ -242,6 +242,6 @@ class Model:
   def exp_2(self, S, max_epoch, lr, train_break, test_break, B):
     errors = self.train(S, max_epoch, lr, train_break, B)
     ecm, Y, Z = self.test(test_break)
-
+    plot_error(errors)
     print('error cuadratico medio: {}'.format(ecm))
     return errors
