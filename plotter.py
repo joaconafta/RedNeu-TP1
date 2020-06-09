@@ -56,3 +56,12 @@ def plot_target_1(Y,Z):
   ax.set_yticklabels(['a','Act','sign(Act)','Esp'])
   plt.show()
 
+def plot_scat_1(Y,Z):
+  fig, ax1 = plt.subplots()
+  plt.title("")
+  ax1.set_xlabel('instancias')
+  ax1.set_ylabel('clasificación')
+  ax1.scatter(Y.index, Y, label='Activación', s=70)
+  ax1.scatter(Y.index, Z, label='Esperado', color='orange', s=25)
+  fig.legend()
+  plt.show()

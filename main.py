@@ -5,6 +5,7 @@ import pickle
 from plotter import plot_error
 from plotter import plot_target
 from plotter import plot_target_1
+from plotter import plot_scat_1
 import pandas as pd
 
 # funciones de inicialización
@@ -235,6 +236,7 @@ class Model:
     prec, Y, Z = self.test(test_break)
     plot_target_1(Y, Z)
     plot_error(errors)
+    plot_scat_1(Y,Z)
     print('precision: {}'.format(prec))
 
     return errors
