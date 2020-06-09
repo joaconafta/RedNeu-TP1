@@ -127,8 +127,16 @@ def test(X, Z, S, W):
   Y = pd.DataFrame(Y)
   Z = pd.DataFrame(Z)
 
-  acc = np.mean(np.where(np.sign(Y) == Z, 1, 0)) # promedio de aciertos
+  if Z.shape[1] ==  1:
+    #ej1
+    acc = np.mean(np.where(np.sign(Y) == Z, 1, 0)) # promedio de aciertos
+  else:
+    #ej2
+    plot_target(Y, Z)
+    acc = np.mean(np.sum(np.square(Z-Y), axis=0)) # error cuadratico medio
+
   return  acc, Y, Z
+
 
 def main(
   argv, input_break, target_break, apply_target,
@@ -162,8 +170,11 @@ def main(
 
     # testeo
     r,Y,Z = test(input, target, S, W)
-
-    print('precisión: {}'.format(r))
+    
+    if Z.shape[1] ==  1:
+      print('precisión: {}  (aciertos/total)'.format(r))
+    else:
+      print('error cuadratico medio: {}'.format(r))
 
 
 class Model:
@@ -205,7 +216,7 @@ class Model:
       self.S, self.model
     )
 
-  def test_scatter(self, test_break):
+  '''def test_scatter(self, test_break):
     X = self.input[test_break[0]:test_break[1]]
     Y = [(activation(self.S, X[i:i+1], self.model, 1)[-1][0])
       for i in range(len(X))]
@@ -217,20 +228,20 @@ class Model:
 
     plot_target(Y, Z)
 
-    return np.mean(np.sum(np.square(Z-Y), axis=0))
+    return np.mean(np.sum(np.square(Z-Y), axis=0))'''
 
   def exp(self, S, max_epoch, lr, train_break, test_break, B):
     errors = self.train(S, max_epoch, lr, train_break, B)
     pres, Y, Z = self.test(test_break)
     plot_target_1(Y, Z)
     plot_error(errors)
-    print(pres)
+    print('presicion: {}'.format(pres))
 
     return errors
 
-  def exp_scatter(self, S, max_epoch, lr, train_break, test_break, B):
+  def exp_2(self, S, max_epoch, lr, train_break, test_break, B):
     errors = self.train(S, max_epoch, lr, train_break, B)
-    pres = self.test_scatter(test_break)
+    pres, Y, Z = self.test(test_break)
 
-    print(pres)
+    print('error cuadratico medio: {}'.format(pres))
     return errors

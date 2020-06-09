@@ -12,15 +12,31 @@ def plot_error(errors):
 
 def plot_target(Y,Z):
   #Calefaccion
+  #plt.title("Calefacción")
+  #plt.scatter(Y.index, Y[0], label='Activación',s=70)
+  #plt.scatter(Y.index, Z[0], label='Esperado', s=25)
+  #plt.show()
+  fig, ax1 = plt.subplots()
   plt.title("Calefacción")
-  plt.scatter(Y.index, Y[0], s=70)
-  plt.scatter(Y.index, Z[0], s=25)
+  ax1.set_xlabel('instancias')
+  ax1.set_ylabel('valor de los parámetros')
+  ax1.scatter(Y.index, Y[0], label='Activación', s=70)
+  ax1.scatter(Y.index, Z[0], label='Esperado', color='orange', s=25)
+  fig.legend()
   plt.show()
 
   #Refrigeracion
+  #plt.title("Refrigeración")
+  #plt.scatter(Y.index, Y[1], label='Activación', s=70)
+  #plt.scatter(Y.index, Z[1], label='Esperado', s=25)
+  #plt.show()
+  fig, ax1 = plt.subplots()
   plt.title("Refrigeración")
-  plt.scatter(Y.index, Y[1], s=70)
-  plt.scatter(Y.index, Z[1], s=25)
+  ax1.set_xlabel('instancias')
+  ax1.set_ylabel('valor de los parámetros')
+  ax1.scatter(Y.index, Y[1], label='Activación', s=70)
+  ax1.scatter(Y.index, Z[1], label='Esperado', color='orange', s=25)
+  fig.legend()
   plt.show()
 
 def plot_target_1(Y,Z):
