@@ -236,7 +236,16 @@ class Model:
     prec, Y, Z = self.test(test_break)
     plot_target_1(Y, Z)
     plot_error(errors)
+    V = []
+    J = []
+    Y = np.array(Y)
+    Z = np.array(Z)
+    for i in range(len(Y)):
+      if (Y[i] > -0.95 and Y[i] < 0.95) or not(np.sign(Y[i]) == Z[i]):
+        V.append(Y[i])
+        J.append(Z[i])
     plot_scat_1(Y,Z)
+    plot_scat_1(V,J)
     print('precision: {}'.format(prec))
 
     return errors
