@@ -170,7 +170,7 @@ def main(
 
     # testeo
     r,Y,Z = test(input, target, S, W)
-    
+
     if Z.shape[1] ==  1:
       print('precisión: {}  (aciertos/total)'.format(r))
     else:
