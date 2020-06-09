@@ -232,16 +232,16 @@ class Model:
 
   def exp(self, S, max_epoch, lr, train_break, test_break, B):
     errors = self.train(S, max_epoch, lr, train_break, B)
-    pres, Y, Z = self.test(test_break)
+    prec, Y, Z = self.test(test_break)
     plot_target_1(Y, Z)
     plot_error(errors)
-    print('presicion: {}'.format(pres))
+    print('precision: {}'.format(prec))
 
     return errors
 
   def exp_2(self, S, max_epoch, lr, train_break, test_break, B):
     errors = self.train(S, max_epoch, lr, train_break, B)
-    pres, Y, Z = self.test(test_break)
+    ecm, Y, Z = self.test(test_break)
 
-    print('error cuadratico medio: {}'.format(pres))
+    print('error cuadratico medio: {}'.format(ecm))
     return errors
