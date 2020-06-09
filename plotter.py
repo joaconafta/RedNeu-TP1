@@ -1,4 +1,5 @@
-import matplotlib.pyplot as plt
+from matplotlib import pyplot as plt,cm
+import numpy as np
 
 # grafica errores en funcion de epocas
 def plot_error(errors):
@@ -8,3 +9,31 @@ def plot_error(errors):
 
   plt.plot(errors)
   plt.show()
+
+def plot_target(Y,Z):
+  plt.scatter(Y.index, Y[0], s=70)
+  plt.scatter(Y.index, Z[0], s=25)
+  plt.show()
+
+  # Calefaccion
+  plt.scatter(Y.index, Y[1], s=70)
+  plt.scatter(Y.index, Z[1], s=25)
+  plt.show()
+
+def plot_target_1(Y,Z):
+  Y2 = np.sign(Y)
+  Y2 = (Y2 + 1)/2
+
+  Y = (Y + 1) /2
+  Z = (Z + 1) /2
+
+  M = np.concatenate((Y, Y2,Z), axis=1)
+  M = M[:30]
+
+  fig, ax = plt.subplots(figsize=(5, 3))
+  fig.subplots_adjust(bottom=0.15, left=0.2)
+  ax.matshow( M.T, cmap=cm.gray)
+  ax.set_xlabel('instancias')
+  ax.set_yticklabels(['a','Act','sign(Act)','Esp'])
+  plt.show()
+

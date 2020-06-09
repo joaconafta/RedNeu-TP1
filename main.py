@@ -3,6 +3,9 @@ from os import path
 import numpy as np
 import pickle
 from plotter import plot_error
+from plotter import plot_target
+from plotter import plot_target_1
+import pandas as pd
 
 # funciones de inicialización
 def init_w(S):
@@ -118,9 +121,14 @@ def train(X, Z, S, max_epoch, lr, B):
   return errors, W
 
 def test(X, Z, S, W):
-  Y = [np.sign(activation(S, X[i:i+1], W, 1)[-1][0])
+  Y = [(activation(S, X[i:i+1], W, 1)[-1][0])
     for i in range(len(X))]
-  return np.mean(np.where(Y == Z, 1, 0)) # promedio de aciertos
+  
+  Y = pd.DataFrame(Y)
+  Z = pd.DataFrame(Z)
+
+  acc = np.mean(np.where(np.sign(Y) == Z, 1, 0)) # promedio de aciertos
+  return  acc, Y, Z
 
 def main(
   argv, input_break, target_break, apply_target,
@@ -153,7 +161,7 @@ def main(
     W = pickle.load(open(model + '.p', 'rb'))
 
     # testeo
-    r = test(input, target, S, W)
+    r,Y,Z = test(input, target, S, W)
 
     print('precisión: {}'.format(r))
 
@@ -197,11 +205,32 @@ class Model:
       self.S, self.model
     )
 
+  def test_scatter(self, test_break):
+    X = self.input[test_break[0]:test_break[1]]
+    Y = [(activation(self.S, X[i:i+1], self.model, 1)[-1][0])
+      for i in range(len(X))]
+
+    Z = self.target[test_break[0]:test_break[1]]
+
+    Y = pd.DataFrame(Y)
+    Z = pd.DataFrame(Z)
+    # Refrigeracion
+    plot_target(Y, Z)
+
+    return np.mean(np.square(Z-Y))
+
   def exp(self, S, max_epoch, lr, train_break, test_break, B):
     errors = self.train(S, max_epoch, lr, train_break, B)
-    pres = self.test(test_break)
-
+    pres, Y, Z = self.test(test_break)
+    plot_target_1(Y, Z)
     plot_error(errors)
     print(pres)
 
+    return errors
+
+  def exp_scatter(self, S, max_epoch, lr, train_break, test_break, B):
+    errors = self.train(S, max_epoch, lr, train_break, B)
+    pres = self.test_scatter(test_break)
+
+    print(pres)
     return errors
