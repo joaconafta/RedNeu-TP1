@@ -11,11 +11,14 @@ def plot_error(errors):
   plt.show()
 
 def plot_target(Y,Z):
+  #Calefaccion
+  plt.title("Calefacción")
   plt.scatter(Y.index, Y[0], s=70)
   plt.scatter(Y.index, Z[0], s=25)
   plt.show()
 
-  # Calefaccion
+  #Refrigeracion
+  plt.title("Refrigeración")
   plt.scatter(Y.index, Y[1], s=70)
   plt.scatter(Y.index, Z[1], s=25)
   plt.show()

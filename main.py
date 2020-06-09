@@ -214,10 +214,10 @@ class Model:
 
     Y = pd.DataFrame(Y)
     Z = pd.DataFrame(Z)
-    # Refrigeracion
+
     plot_target(Y, Z)
 
-    return np.mean(np.square(Z-Y))
+    return np.mean(np.sum(np.square(Z-Y), axis=0))
 
   def exp(self, S, max_epoch, lr, train_break, test_break, B):
     errors = self.train(S, max_epoch, lr, train_break, B)
