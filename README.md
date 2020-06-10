@@ -14,21 +14,11 @@ contiene 10 características provenientes de imágenes digitalizadas de muestras
 células, y el diagnostico final en donde se indica si la muestra analizada
 pertenecía a un tumor maligno o benigno.
 
-### Correr
+La estimación con el modelo ya entrenado se ejecuta con
 
 ```
-python ej1.py MODELO DATASET
+python ej1.py models/model_ej1 DATASET
 ```
-
-Para entrenar usar:
-
-- `MODELO` path donde se guarda el modelo. Este archivo no debe existir.
-- `DATASET` path al dataset de entrenamiento
-
-Para testar usar:
-
-- `MODELO` path al modelo entrenado. Este archivo debe existir.
-- `DATASET` path al dataset de testing
 
 ## Ejercicio 2
 
@@ -42,6 +32,35 @@ otros parámetros.
 Cada entrada en el conjunto de datos corresponde a las características de un edificio
 distinto junto a dos valores reales que representan la cantidad de energía necesaria
 para realizar una calefacción y refrigeración adecuadas.
+
+La estimación con el modelo ya entrenado se ejecuta con
+
+```
+python ej2.py models/model_ej2 DATASET
+```
+
+
+## Correr
+
+```
+python ej1.py MODELO DATASET
+```
+
+o
+
+```
+python ej2.py MODELO DATASET
+```
+
+Para entrenar usar:
+
+- `MODELO` path donde se guarda el modelo. Este archivo no debe existir.
+- `DATASET` path al dataset de entrenamiento
+
+Para testar usar:
+
+- `MODELO` path al modelo entrenado. Este archivo debe existir.
+- `DATASET` path al dataset de testing
 
 ## Setup
 
@@ -94,18 +113,6 @@ Para instalar version de Python
 
 2. Abrir archivo `exp_ej1.ipynb` o `exp_ej2.ipynb`
 
+> Otros notebooks también tienen experimentaciones.
+
 La clase `Model` se puede usar para experimentar y no recargar los datos.
-
-## Todo
-
-- [x] Probar modelo de buckets
-- [x] Experimento de normalización
-
-
-- [ ] Probar standarización
-- [ ] Probar cambiar funciónes de activaón
-
-
-- [ ] Experimentar con cross-validation
-- [ ] Experimentar con sliding window
-
