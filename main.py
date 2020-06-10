@@ -5,6 +5,7 @@ import pickle
 from plotter import plot_error
 from plotter import plot_target
 from plotter import plot_target_1
+from plotter import plot_scat_1
 import pandas as pd
 
 # funciones de inicialización
@@ -235,6 +236,16 @@ class Model:
     prec, Y, Z = self.test(test_break)
     plot_target_1(Y, Z)
     plot_error(errors)
+    V = []
+    J = []
+    Y = np.array(Y)
+    Z = np.array(Z)
+    for i in range(len(Y)):
+      if (Y[i] > -0.95 and Y[i] < 0.95) or not(np.sign(Y[i]) == Z[i]):
+        V.append(Y[i])
+        J.append(Z[i])
+    plot_scat_1(Y,Z)
+    plot_scat_1(V,J)
     print('precision: {}'.format(prec))
 
     return errors
@@ -242,6 +253,6 @@ class Model:
   def exp_2(self, S, max_epoch, lr, train_break, test_break, B):
     errors = self.train(S, max_epoch, lr, train_break, B)
     ecm, Y, Z = self.test(test_break)
-
+    plot_error(errors)
     print('error cuadratico medio: {}'.format(ecm))
     return errors
